@@ -23,6 +23,7 @@ class Photo {
     required this.user,
     required this.userImageURL,
   });
+
   late final int id;
   late final String pageURL;
   late final String type;
@@ -46,7 +47,7 @@ class Photo {
   late final String user;
   late final String userImageURL;
 
-  Photo.fromJson(Map<String, dynamic> json){
+  Photo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     pageURL = json['pageURL'];
     type = json['type'];
