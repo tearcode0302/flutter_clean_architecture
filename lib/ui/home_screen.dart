@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter_clean_architecture/data/photo_provider.dart';
 import 'package:flutter_clean_architecture/ui/widget/photo_widget.dart';
-import '../data/api.dart';
 import '../model/photo.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -13,7 +13,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final api = PixabayApi();
   final _controller = TextEditingController();
 
   List<Photo> _photos = [];
@@ -26,6 +25,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final photoProvider = PhotoProvider.of(context);
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -47,7 +48,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 suffixIcon: IconButton(
                   onPressed: () async {
-                    final photos = await api.fetch(_controller.text);
+                    final photos =
+                        await photoProvider.api.fetch(_controller.text);
                     setState(() {
                       _photos = photos;
                     });
@@ -68,7 +70,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               itemBuilder: (context, index) {
                 final photo = _photos[index];
-                return PhotoWidget(photo: photo);
+                return PhotoWidget(
+                  photo: photo,
+                );
               },
             ),
           )
